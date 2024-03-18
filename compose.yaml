@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  php:
+    container_name: balancer-php
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: balancer-php
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    working_dir: /app
+    volumes:
+      - ./:/app
+    ports:
+      - '8000:8000'
+    networks:
+      - app-network
+
+  mysql:
+    env_file:
+      - .env
+    container_name: balancer-mysql
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
