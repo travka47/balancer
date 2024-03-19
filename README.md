@@ -4,6 +4,7 @@ cp .env .env.local
 docker compose up -d --build
 docker exec -it balancer-php bash
 
+symfony console doctrine:migrations:migrate
 symfony server:start
 ```
 _Доступ по адресу: http://127.0.0.1:8000_
