@@ -6,6 +6,8 @@ use App\Repository\WorkstationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: WorkstationRepository::class)]
 class Workstation
@@ -17,6 +19,7 @@ class Workstation
         nullable: false,
         options: ['unsigned' => true]
     )]
+    #[Groups('workstation')]
     private int $id;
 
     #[ORM\Column(
@@ -25,6 +28,10 @@ class Workstation
         nullable: false,
         options: ['unsigned' => true]
     )]
+    #[Groups('workstation')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'integer')]
+    #[Assert\GreaterThan(value: 0)]
     private int $totalRam;
 
     #[ORM\Column(
@@ -33,6 +40,10 @@ class Workstation
         nullable: false,
         options: ['unsigned' => true]
     )]
+    #[Groups('workstation')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'integer')]
+    #[Assert\GreaterThan(value: 0)]
     private int $totalCpu;
 
     #[ORM\OneToMany(
@@ -40,6 +51,7 @@ class Workstation
         mappedBy: 'workstation',
         orphanRemoval: true
     )]
+    #[Groups('process')]
     private Collection $processes;
 
     #[ORM\OneToOne(
@@ -48,6 +60,7 @@ class Workstation
         cascade: ['persist', 'remove'],
         orphanRemoval: true
     )]
+    #[Groups('resource')]
     private WorkstationResource $resource;
 
     public function __construct()

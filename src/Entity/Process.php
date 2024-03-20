@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProcessRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProcessRepository::class)]
 class Process
@@ -15,6 +16,7 @@ class Process
         nullable: false,
         options: ['unsigned' => true]
     )]
+    #[Groups('process')]
     private int $id;
 
     #[ORM\Column(
@@ -23,6 +25,7 @@ class Process
         nullable: false,
         options: ['unsigned' => true]
     )]
+    #[Groups('process')]
     private int $requiredRam;
 
     #[ORM\Column(
@@ -31,6 +34,7 @@ class Process
         nullable: false,
         options: ['unsigned' => true]
     )]
+    #[Groups('process')]
     private int $requiredCpu;
 
     #[ORM\ManyToOne(

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\WorkstationResourceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: WorkstationResourceRepository::class)]
 class WorkstationResource
@@ -26,6 +27,7 @@ class WorkstationResource
         nullable: false,
         options: ['unsigned' => true]
     )]
+    #[Groups('resource')]
     private int $freeRam;
 
     #[ORM\Column(
@@ -34,6 +36,7 @@ class WorkstationResource
         nullable: false,
         options: ['unsigned' => true]
     )]
+    #[Groups('resource')]
     private int $freeCpu;
 
     public function getWorkstation(): Workstation

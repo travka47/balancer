@@ -3,3 +3,18 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+api_workstation_list:
+    path: /api/workstation
+    controller: App\Controller\WorkstationApiController::index
+    methods: GET
+
+api_workstation_create:
+    path: /api/workstation
+    controller: App\Controller\WorkstationApiController::create
+    methods: POST
+
+api_workstation_delete:
+    path: /api/workstation/{id}
+    controller: App\Controller\WorkstationApiController::delete
+    methods: DELETE
