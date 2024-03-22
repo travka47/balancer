@@ -27,7 +27,7 @@ class WorkstationResource
         nullable: false,
         options: ['unsigned' => true]
     )]
-    #[Groups('resource')]
+    #[Groups('workstation_resource')]
     private int $freeRam;
 
     #[ORM\Column(
@@ -36,7 +36,7 @@ class WorkstationResource
         nullable: false,
         options: ['unsigned' => true]
     )]
-    #[Groups('resource')]
+    #[Groups('workstation_resource')]
     private int $freeCpu;
 
     public function getWorkstation(): Workstation

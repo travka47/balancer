@@ -19,7 +19,7 @@ class Workstation
         nullable: false,
         options: ['unsigned' => true]
     )]
-    #[Groups('workstation')]
+    #[Groups(['workstation', 'process_workstation'])]
     private int $id;
 
     #[ORM\Column(
@@ -51,7 +51,7 @@ class Workstation
         mappedBy: 'workstation',
         orphanRemoval: true
     )]
-    #[Groups('process')]
+    #[Groups('workstation_processes')]
     private Collection $processes;
 
     #[ORM\OneToOne(
@@ -60,7 +60,7 @@ class Workstation
         cascade: ['persist', 'remove'],
         orphanRemoval: true
     )]
-    #[Groups('resource')]
+    #[Groups('workstation_resource')]
     private WorkstationResource $resource;
 
     public function __construct()

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProcessRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProcessRepository::class)]
 class Process
@@ -16,7 +17,7 @@ class Process
         nullable: false,
         options: ['unsigned' => true]
     )]
-    #[Groups('process')]
+    #[Groups(['process', 'workstation_processes'])]
     private int $id;
 
     #[ORM\Column(
@@ -25,7 +26,10 @@ class Process
         nullable: false,
         options: ['unsigned' => true]
     )]
-    #[Groups('process')]
+    #[Groups(['process', 'workstation_processes'])]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'integer')]
+    #[Assert\GreaterThan(value: 0)]
     private int $requiredRam;
 
     #[ORM\Column(
@@ -34,7 +38,10 @@ class Process
         nullable: false,
         options: ['unsigned' => true]
     )]
-    #[Groups('process')]
+    #[Groups(['process', 'workstation_processes'])]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'integer')]
+    #[Assert\GreaterThan(value: 0)]
     private int $requiredCpu;
 
     #[ORM\ManyToOne(
@@ -42,6 +49,7 @@ class Process
         inversedBy: 'processes'
     )]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('process_workstation')]
     private Workstation $workstation;
 
     public function getId(): ?int
@@ -73,7 +81,7 @@ class Process
         return $this;
     }
 
-    public function getWorkstation(): ?Workstation
+    public function getWorkstation(): Workstation
     {
         return $this->workstation;
     }

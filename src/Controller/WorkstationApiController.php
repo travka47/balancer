@@ -45,7 +45,9 @@ class WorkstationApiController extends AbstractController
     {
         $workstations = $this->workstationRepository->findAll();
 
-        $jsonData = $this->serializer->serialize($workstations, 'json', ['groups' => ['workstation', 'resource', 'process']]);
+        $jsonData = $this->serializer->serialize($workstations, 'json', [
+            'groups' => ['workstation', 'workstation_processes', 'workstation_resource'],
+        ]);
 
         return new JsonResponse($jsonData, Response::HTTP_OK, [], true);
     }

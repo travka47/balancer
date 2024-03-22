@@ -18,3 +18,13 @@ api_workstation_delete:
     path: /api/workstation/{id}
     controller: App\Controller\WorkstationApiController::delete
     methods: DELETE
+
+api_process_create:
+    path: /api/process
+    controller: App\Controller\ProcessApiController::create
+    methods: POST
+
+api_process_delete:
+    path: /api/process/{id}
+    controller: App\Controller\ProcessApiController::delete
+    methods: DELETE
