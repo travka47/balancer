@@ -29,4 +29,16 @@ class WorkstationService
                 'requiredCpu' => $process->getRequiredCpu(),
             ])->getOneOrNullResult();
     }
+
+    public function deployWorkstation(Workstation $workstation): void
+    {
+        $this->entityManager->persist($workstation);
+        $this->entityManager->flush();
+    }
+
+    public function killWorkstation(Workstation $workstation): void
+    {
+        $this->entityManager->remove($workstation);
+        $this->entityManager->flush();
+    }
 }

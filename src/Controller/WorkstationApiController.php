@@ -6,6 +6,7 @@ use AllowDynamicProperties;
 use App\Entity\Workstation;
 use App\Repository\WorkstationRepository;
 use App\Service\ErrorResponseService;
+use App\Service\WorkstationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,19 +26,22 @@ class WorkstationApiController extends AbstractController
     private SerializerInterface $serializer;
     private ValidatorInterface $validator;
     private WorkstationRepository $workstationRepository;
+    private WorkstationService $workstationService;
 
     public function __construct(
         ErrorResponseService $errorResponseService,
         EntityManagerInterface $entityManager,
         SerializerInterface $serializer,
         ValidatorInterface $validator,
-        WorkstationRepository $workstationRepository
+        WorkstationRepository $workstationRepository,
+        WorkstationService $workstationService,
     ) {
         $this->errorResponseService = $errorResponseService;
         $this->entityManager = $entityManager;
         $this->serializer = $serializer;
         $this->validator = $validator;
         $this->workstationRepository = $workstationRepository;
+        $this->workstationService = $workstationService;
     }
 
     #[Route('/workstation', name: 'workstation_list', methods: ['GET'])]
@@ -70,8 +74,7 @@ class WorkstationApiController extends AbstractController
             return $this->errorResponseService->createErrorResponse($errors);
         }
 
-        $this->entityManager->persist($workstation);
-        $this->entityManager->flush();
+        $this->workstationService->deployWorkstation($workstation);
 
         $jsonData = $this->serializer->serialize($workstation, 'json', ['groups' => 'workstation']);
 
@@ -87,8 +90,7 @@ class WorkstationApiController extends AbstractController
             return new JsonResponse(['error' => 'Workstation not found'], Response::HTTP_NOT_FOUND);
         }
 
-        $this->entityManager->remove($workstation);
-        $this->entityManager->flush();
+        $this->workstationService->killWorkstation($workstation);
 
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
