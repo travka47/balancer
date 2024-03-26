@@ -5,9 +5,9 @@ namespace App\Controller;
 use AllowDynamicProperties;
 use App\Entity\Process;
 use App\Repository\ProcessRepository;
+use App\Repository\WorkstationRepository;
 use App\Service\ErrorResponseService;
 use App\Service\ProcessService;
-use App\Service\WorkstationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,23 +24,23 @@ class ProcessApiController extends AbstractController
     private ErrorResponseService $errorResponseService;
     private SerializerInterface $serializer;
     private ValidatorInterface $validator;
+    private WorkstationRepository $workstationRepository;
     private ProcessRepository $processRepository;
-    private WorkstationService $workstationService;
     private ProcessService $processService;
 
     public function __construct(
         ErrorResponseService $errorResponseService,
         SerializerInterface $serializer,
         ValidatorInterface $validator,
+        WorkstationRepository $workstationRepository,
         ProcessRepository $processRepository,
-        WorkstationService $workstationService,
         ProcessService $processService,
     ) {
         $this->errorResponseService = $errorResponseService;
         $this->serializer = $serializer;
         $this->validator = $validator;
+        $this->workstationRepository = $workstationRepository;
         $this->processRepository = $processRepository;
-        $this->workstationService = $workstationService;
         $this->processService = $processService;
     }
 
@@ -62,7 +62,7 @@ class ProcessApiController extends AbstractController
             return $this->errorResponseService->createErrorResponse($errors);
         }
 
-        $workstation = $this->workstationService->getFreeWorkstation($process);
+        $workstation = $this->workstationRepository->findFreeWorkstation($process);
 
         if (!$workstation) {
             return new JsonResponse(['error' => 'Unable to deploy the process'], Response::HTTP_EXPECTATION_FAILED);
@@ -70,9 +70,7 @@ class ProcessApiController extends AbstractController
 
         $this->processService->deployProcess($process, $workstation);
 
-        $jsonData = $this->serializer->serialize($process, 'json', [
-            'groups' => ['process', 'process_workstation', 'workstation_resource'],
-        ]);
+        $jsonData = $this->serializer->serialize($process, 'json', ['groups' => 'process']);
 
         return new JsonResponse($jsonData, Response::HTTP_CREATED, [], true);
     }

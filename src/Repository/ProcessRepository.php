@@ -20,4 +20,19 @@ class ProcessRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Process::class);
     }
+
+    public function findAllSortedByRamAndCpuDesc(): array
+    {
+        return $this->findBy([], ['requiredRam' => 'DESC', 'requiredCpu' => 'DESC']);
+    }
+
+    public function findAllSortedByRamDesc(): array
+    {
+        return $this->findBy([], ['requiredRam' => 'DESC', 'requiredCpu' => 'ASC']);
+    }
+
+    public function findAllSortedByCpuDesc(): array
+    {
+        return $this->findBy([], ['requiredRam' => 'ASC', 'requiredCpu' => 'DESC']);
+    }
 }

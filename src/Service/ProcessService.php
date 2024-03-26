@@ -23,7 +23,9 @@ class ProcessService
         $resource->setFreeRam($resource->getFreeRam() - $process->getRequiredRam());
         $resource->setFreeCpu($resource->getFreeCpu() - $process->getRequiredCpu());
 
-        $this->entityManager->persist($process);
+        if ($process->getId() === null) {
+            $this->entityManager->persist($process);
+        }
         $this->entityManager->flush();
     }
 

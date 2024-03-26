@@ -18,7 +18,7 @@ class Process
         options: ['unsigned' => true]
     )]
     #[Groups(['process', 'workstation_processes'])]
-    private int $id;
+    private ?int $id = null;
 
     #[ORM\Column(
         name: 'required_ram',
@@ -48,13 +48,12 @@ class Process
         targetEntity: Workstation::class,
         inversedBy: 'processes'
     )]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups('process_workstation')]
-    private Workstation $workstation;
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Workstation $workstation = null;
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->id ?? null;
     }
 
     public function getRequiredRam(): int
@@ -81,12 +80,12 @@ class Process
         return $this;
     }
 
-    public function getWorkstation(): Workstation
+    public function getWorkstation(): ?Workstation
     {
         return $this->workstation;
     }
 
-    public function setWorkstation(Workstation $workstation): static
+    public function setWorkstation(?Workstation $workstation): static
     {
         $this->workstation = $workstation;
 

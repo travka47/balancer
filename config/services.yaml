@@ -26,3 +26,6 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: postRemove }
+    App\EventListener\KernelResponseListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.response }

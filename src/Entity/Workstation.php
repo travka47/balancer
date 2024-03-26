@@ -19,7 +19,7 @@ class Workstation
         nullable: false,
         options: ['unsigned' => true]
     )]
-    #[Groups(['workstation', 'process_workstation'])]
+    #[Groups('workstation')]
     private int $id;
 
     #[ORM\Column(
