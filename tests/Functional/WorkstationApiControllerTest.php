@@ -27,13 +27,19 @@ class WorkstationApiControllerTest extends BalancerWebTestCase
         self::assertObjectHasProperty('totalCpu', $workstations[0]);
         self::assertObjectHasProperty('processes', $workstations[0]);
         self::assertObjectHasProperty('resource', $workstations[0]);
+
+        self::assertEquals(100, $workstations[0]->totalRam);
+        self::assertEquals(200, $workstations[0]->totalCpu);
+        self::assertEquals([], $workstations[0]->processes);
+        self::assertEquals(100, $workstations[0]->resource->freeRam);
+        self::assertEquals(200, $workstations[0]->resource->freeCpu);
     }
 
     public function testCreate(): void
     {
         $this->client->request(Request::METHOD_POST, '/api/workstation', [], [], [], json_encode([
             'totalRam' => 100,
-            'totalCpu' => 100,
+            'totalCpu' => 200,
         ], JSON_THROW_ON_ERROR));
         self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
@@ -42,6 +48,9 @@ class WorkstationApiControllerTest extends BalancerWebTestCase
         self::assertObjectHasProperty('id', $workstation);
         self::assertObjectHasProperty('totalRam', $workstation);
         self::assertObjectHasProperty('totalCpu', $workstation);
+
+        self::assertEquals(100, $workstation->totalRam);
+        self::assertEquals(200, $workstation->totalCpu);
     }
 
     public function testDelete(): void

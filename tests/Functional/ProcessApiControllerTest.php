@@ -28,6 +28,9 @@ class ProcessApiControllerTest extends BalancerWebTestCase
         self::assertObjectHasProperty('id', $process);
         self::assertObjectHasProperty('requiredRam', $process);
         self::assertObjectHasProperty('requiredCpu', $process);
+
+        self::assertEquals(10, $process->requiredRam);
+        self::assertEquals(20, $process->requiredCpu);
     }
 
     public function testDelete(): void

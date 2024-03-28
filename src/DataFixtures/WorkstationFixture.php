@@ -12,7 +12,7 @@ class WorkstationFixture extends Fixture
     {
         $workstation = new Workstation();
         $workstation->setTotalRam(100);
-        $workstation->setTotalCpu(100);
+        $workstation->setTotalCpu(200);
 
         $manager->persist($workstation);
         $manager->flush();

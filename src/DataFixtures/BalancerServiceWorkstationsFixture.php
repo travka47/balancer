@@ -8,30 +8,22 @@ use Doctrine\Persistence\ObjectManager;
 
 class BalancerServiceWorkstationsFixture extends Fixture
 {
+    private array $workstationsData;
+
+    public function __construct(array $workstationsData)
+    {
+        $this->workstationsData = $workstationsData;
+    }
+
     public function load(ObjectManager $manager): void
     {
-        $parameters = [
-            [
-                'ram' => 30,
-                'cpu' => 30
-            ],
-            [
-                'ram' => 20,
-                'cpu' => 20
-            ],
-            [
-                'ram' => 10,
-                'cpu' => 10
-            ],
-        ];
-
-        foreach ($parameters as $wsData) {
+        foreach ($this->workstationsData as $data) {
             $workstation = new Workstation();
-            $workstation->setTotalRam($wsData['ram']);
-            $workstation->setTotalCpu($wsData['cpu']);
+            $workstation->setTotalRam($data['ram']);
+            $workstation->setTotalCpu($data['cpu']);
 
             $manager->persist($workstation);
-            $manager->flush();
         }
+        $manager->flush();
     }
 }
