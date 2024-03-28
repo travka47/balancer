@@ -28,7 +28,7 @@ class Workstation
         nullable: false,
         options: ['unsigned' => true]
     )]
-    #[Groups('workstation')]
+    #[Groups(['workstation', 'create_workstation'])]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
     #[Assert\GreaterThan(value: 0)]
@@ -40,7 +40,7 @@ class Workstation
         nullable: false,
         options: ['unsigned' => true]
     )]
-    #[Groups('workstation')]
+    #[Groups(['workstation', 'create_workstation'])]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
     #[Assert\GreaterThan(value: 0)]

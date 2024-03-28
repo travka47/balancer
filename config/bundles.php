@@ -7,4 +7,7 @@ return [
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     DAMA\DoctrineTestBundle\DAMADoctrineTestBundle::class => ['test' => true],
+    Nelmio\ApiDocBundle\NelmioApiDocBundle::class => ['all' => true],
+    Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
+    Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
 ];

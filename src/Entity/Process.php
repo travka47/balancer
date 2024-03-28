@@ -26,7 +26,7 @@ class Process
         nullable: false,
         options: ['unsigned' => true]
     )]
-    #[Groups(['process', 'workstation_processes'])]
+    #[Groups(['process', 'create_process', 'workstation_processes'])]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
     #[Assert\GreaterThan(value: 0)]
@@ -38,7 +38,7 @@ class Process
         nullable: false,
         options: ['unsigned' => true]
     )]
-    #[Groups(['process', 'workstation_processes'])]
+    #[Groups(['process', 'create_process', 'workstation_processes'])]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
     #[Assert\GreaterThan(value: 0)]
