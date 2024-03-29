@@ -17,8 +17,8 @@ RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-WORKDIR /app
 COPY . /app
+WORKDIR /app
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install

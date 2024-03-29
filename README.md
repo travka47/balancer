@@ -6,6 +6,7 @@ docker compose up -d --build
 docker exec -it balancer-php bash
 
 symfony console doctrine:migrations:migrate
+
 symfony server:start
 ```
 
@@ -24,6 +25,9 @@ symfony server:start
 
 ```bash
 docker exec -it balancer-php bash
+
+symfony console --env=test doctrine:database:create
+symfony console --env=test doctrine:schema:create
 
 php bin/phpunit
 ```
