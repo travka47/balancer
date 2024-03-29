@@ -24,6 +24,7 @@ symfony server:start
 ### Тесты
 
 ```bash
+cp .env.test .env.test.local
 docker exec -it balancer-php bash
 
 symfony console --env=test doctrine:database:create
